@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_URL = (import.meta.env.VITE_API_URL as string) || 'http://localhost:5000'
 
 interface VideoInfo {
   id: string
@@ -94,7 +94,7 @@ export function useYoutubeApi() {
       const contentLength = parseInt(response.headers.get('Content-Length') || '0')
       
       let receivedLength = 0
-      const chunks: Uint8Array[] = []
+      const chunks: BlobPart[] = []
 
       if (reader) {
         while (true) {
@@ -102,7 +102,7 @@ export function useYoutubeApi() {
           
           if (done) break
           
-          chunks.push(value)
+          chunks.push(value as BlobPart)
           receivedLength += value.length
           
           if (contentLength > 0) {
