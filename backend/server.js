@@ -9,10 +9,16 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Configure ytdl agent to avoid rate limiting
-const agent = ytdl.createAgent(undefined, {
-  localAddress: undefined
-});
+// Configure ytdl options to avoid rate limiting
+const ytdlOptions = {
+  requestOptions: {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    }
+  }
+};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -103,8 +109,8 @@ app.post('/api/info', async (req, res) => {
       });
     }
 
-    // Get video info with agent to avoid rate limiting
-    const info = await ytdl.getInfo(url, { agent });
+    // Get video info with custom options to avoid rate limiting
+    const info = await ytdl.getInfo(url, ytdlOptions);
     const videoDetails = info.videoDetails;
 
     // Get available formats
@@ -182,7 +188,7 @@ app.post('/api/download', async (req, res) => {
       });
     }
 
-    const info = await ytdl.getInfo(url, { agent });
+    const info = await ytdl.getInfo(url, ytdlOptions);
     const videoDetails = info.videoDetails;
 
     // Set response headers for download
