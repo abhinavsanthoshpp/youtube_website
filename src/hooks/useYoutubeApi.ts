@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
-const API_URL = (import.meta.env.VITE_API_URL as string) || 'http://localhost:5000'
+// Replace with your actual Render backend URL
+const API_URL = (import.meta.env.VITE_API_URL as string) || 'https://youtube-downloader-api-898z.onrender.com'
 
 interface VideoInfo {
   id: string
